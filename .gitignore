@@ -1,3 +1,4 @@
 test_file.out
 per_file_syscall_counts.json
 global_syscall_counts.json
+io_profiler/__pycache__
