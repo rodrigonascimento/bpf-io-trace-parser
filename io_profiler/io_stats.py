@@ -10,7 +10,7 @@ class GlobalIOStats():
         if message[:4] != 'time': 
             return
         
-        syscall_name = message.split()[2].split('_')[2]
+        syscall_name = message.split()[[field.startswith('probe') for field in message.split()].index(True)].split('=')[1].split('_')[2]
         if syscall_name not in self.global_syscall_counts:
             self.global_syscall_counts[syscall_name] = 1
         else:
