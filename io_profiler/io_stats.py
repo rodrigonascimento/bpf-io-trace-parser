@@ -6,7 +6,7 @@ class GlobalIOStats():
         self.global_syscall_counts = dict()
         self.name = name
 
-    def receive(self, message: str):
+    def process(self, message: str):
         if message[:4] != 'time': 
             return
         
@@ -25,7 +25,7 @@ class PerFileIOStats():
         self.per_file_syscall_counts = dict()
         self.name = name
 
-    def receive(self, message: str):
+    def process(self, message: str):
         if message[:4] != 'time':
             return
 
