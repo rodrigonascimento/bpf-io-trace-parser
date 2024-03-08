@@ -1,0 +1,45 @@
+from pathlib import Path
+
+class TelemetryContentRouter():
+    def __init__(self, name: str) -> None:
+        self.name = name
+        self.fd_filename = dict()
+        self.tlt_file_id = 0
+
+    def process(self, message: str):
+        if message[:4] != 'time':
+            return
+        
+        syscall_name = message.split()[[field.startswith('probe') for field in message.split()].index(True)].split('=')[1].split('_')[2]
+        fd = int(message.split()[[field.startswith('fd') for field in message.split()].index(True)].split('=')[1])
+        filename = message.split()[[field.startswith('filename') for field in message.split()].index(True)].split('=')[1]
+
+        if syscall_name == 'open' or syscall_name == 'openat' or syscall_name == 'openat2' or syscall_name == 'creat':
+            tlt_filename = filename.replace('/', '_') + '.tlt'    
+            if fd not in self.fd_filename:
+                tlt_fd_file = TelemetryFile(tlt_file_name=tlt_filename)
+                tlt_fd_file.create()
+                self.fd_filename[fd] = tlt_fd_file
+
+        if syscall_name == 'close':
+            self.fd_filename[fd].add_line(line=message)
+            self.fd_filename.pop(fd)
+            return
+
+        self.fd_filename[fd].add_line(line=message)
+
+
+class TelemetryFile():
+    def __init__(self, tlt_file_name: str) -> None:
+        self.tlt_file_name = Path(tlt_file_name)
+
+    def __str__(self) -> str:
+        return self.tlt_file_name.name
+
+    def create(self):
+        self.tlt_file_name.touch()
+
+    def add_line(self, line: str):
+        with open(file=self.tlt_file_name.name, mode='+a') as fd_tlt_file:
+            fd_tlt_file.write(line)
+    
