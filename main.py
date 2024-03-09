@@ -8,11 +8,11 @@ def main():
 
     global_io_stats = GlobalIOStats(name='global_stats')
     per_file_io_stats = PerFileIOStats(name='per-file-stats')
-    telemetry_filter = TelemetryContentRouter(name='tlt-router')
+    telemetry_content_router = TelemetryContentRouter(name='tlt-router')
 
     bpf_trfile_reader.subscribe(global_io_stats)
     bpf_trfile_reader.subscribe(per_file_io_stats)
-    bpf_trfile_reader.subscribe(telemetry_filter)
+    bpf_trfile_reader.subscribe(telemetry_content_router)
 
     bpf_trfile_reader.read_file()
 
