@@ -41,6 +41,15 @@ class PerFileIOStats():
             else:
                 self.per_file_syscall_counts[filename][syscall_name] += 1
 
+    def calculate_total_calls_per_file(self):
+        for f in self.per_file_syscall_counts.keys():
+            total = 0
+            for s in self.per_file_syscall_counts[f].keys():
+                total += self.per_file_syscall_counts[f][s]
+            
+            self.per_file_syscall_counts[f]['total'] = total
+
     def write_output_file(self):
         with open(file='per_file_syscall_counts.json', mode='w') as per_file_syscounts_output:
             json.dump(self.per_file_syscall_counts, per_file_syscounts_output)
+
