@@ -18,7 +18,7 @@ class GlobalIOStats():
 
     def write_output_file(self):
         with open(file='global_syscall_counts.json', mode='w') as global_syscounts_output:
-            json.dump(self.global_syscall_counts, global_syscounts_output)
+            json.dump(self.global_syscall_counts, global_syscounts_output, indent=2)
 
 class PerFileIOStats():
     def __init__(self, name: str) -> None:
@@ -51,5 +51,5 @@ class PerFileIOStats():
 
     def write_output_file(self):
         with open(file='per_file_syscall_counts.json', mode='w') as per_file_syscounts_output:
-            json.dump(self.per_file_syscall_counts, per_file_syscounts_output)
+            json.dump(self.per_file_syscall_counts, per_file_syscounts_output, indent=2)
 
