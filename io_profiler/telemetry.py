@@ -10,25 +10,28 @@ class TelemetryContentRouter():
         if message[:4] != 'time':
             return
         
-        syscall_name = message.split()[[field.startswith('probe') for field in message.split()].index(True)].split('=')[1].split('_')[2]
-        pid = int(message.split()[[field.startswith('pid') for field in message.split()].index(True)].split('=')[1])
-        tid = int(message.split()[[field.startswith('tid') for field in message.split()].index(True)].split('=')[1])
-        fd = int(message.split()[[field.startswith('fd') for field in message.split()].index(True)].split('=')[1])
         filename = message.split()[[field.startswith('filename') for field in message.split()].index(True)].split('=')[1]
+        if filename.startswith('/data/db'):
+            syscall_name = message.split()[[field.startswith('probe') for field in message.split()].index(True)].split('=')[1].split('_')[2]
+            pid = int(message.split()[[field.startswith('pid') for field in message.split()].index(True)].split('=')[1])
+            tid = int(message.split()[[field.startswith('tid') for field in message.split()].index(True)].split('=')[1])
+            fd = int(message.split()[[field.startswith('fd') for field in message.split()].index(True)].split('=')[1])
 
-        if syscall_name == 'open' or syscall_name == 'openat' or syscall_name == 'openat2' or syscall_name == 'creat':
-            tlt_filename = filename.replace('/', '_') + '.tlt'    
-            if fd not in self.fd_filename:
-                tlt_fd_file = TelemetryFile(tlt_file_name='./telemetry_files/' + tlt_filename)
-                tlt_fd_file.create()
-                self.fd_filename[(pid,tid,fd)] = tlt_fd_file
+            if syscall_name == 'open' or syscall_name == 'openat' or syscall_name == 'openat2' or syscall_name == 'creat':
+                tlt_filename = filename.replace('/', '_') + '.tlt'    
+                if fd not in self.fd_filename:
+                    tlt_fd_file = TelemetryFile(tlt_file_name='./telemetry_files/' + tlt_filename)
+                    tlt_fd_file.create()
+                    self.fd_filename[(pid,tid,fd)] = tlt_fd_file
 
-        if syscall_name == 'close':
+            if syscall_name == 'close':
+                self.fd_filename[(pid,tid,fd)].add_line(line=message)
+                self.fd_filename.pop((pid,tid,fd))
+                return
+
             self.fd_filename[(pid,tid,fd)].add_line(line=message)
-            self.fd_filename.pop((pid,tid,fd))
+        else:
             return
-
-        self.fd_filename[(pid,tid,fd)].add_line(line=message)
 
 
 class TelemetryFile():
