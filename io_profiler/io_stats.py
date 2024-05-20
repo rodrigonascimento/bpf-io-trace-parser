@@ -25,16 +25,17 @@ class GlobalIOStats():
             json.dump(self.global_syscall_counts, global_syscounts_output, indent=2)
 
 class PerFileIOStats():
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, dir_name: str) -> None:
         self.per_file_syscall_counts = dict()
         self.name = name
+        self.dir_name = dir_name
 
     def process(self, message: str):
         if message[:4] != 'time':
             return
 
         filename = message.split()[[field.startswith('filename') for field in message.split()].index(True)].split('=')[1]
-        if filename.startswith('/data/db'):
+        if filename.startswith(self.dir_name):
             syscall_name = message.split()[[field.startswith('probe') for field in message.split()].index(True)].split('=')[1].split('_')[2]
 
             if filename not in self.per_file_syscall_counts:

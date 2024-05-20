@@ -7,7 +7,7 @@ def main():
     bpf_trfile_reader = TraceFileReader(Path('test_file.out'))
 
     global_io_stats = GlobalIOStats(name='global_stats')
-    per_file_io_stats = PerFileIOStats(name='per-file-stats')
+    per_file_io_stats = PerFileIOStats(name='per-file-stats', name='/data/db')
     telemetry_content_router = TelemetryContentRouter(name='tlt-router')
 
     bpf_trfile_reader.subscribe(global_io_stats)
@@ -17,6 +17,7 @@ def main():
     bpf_trfile_reader.read_file()
 
     global_io_stats.write_output_file()
+
     per_file_io_stats.calculate_total_calls_per_file()
     per_file_io_stats.write_output_file()
 
