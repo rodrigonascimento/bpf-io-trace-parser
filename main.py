@@ -21,6 +21,5 @@ def main():
     per_file_io_stats.calculate_total_calls_per_file()
     per_file_io_stats.write_output_file()
 
-
 if __name__ == '__main__':
     main()
