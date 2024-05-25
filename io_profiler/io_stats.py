@@ -2,16 +2,17 @@ import json
 from pathlib import Path
 
 class GlobalIOStats():
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, dir_name: str) -> None:
         self.global_syscall_counts = dict()
         self.name = name
+        self.dir_name = dir_name
 
     def process(self, message: str):
         if message[:4] != 'time': 
             return
         
         filename = message.split()[[field.startswith('filename') for field in message.split()].index(True)].split('=')[1]
-        if filename.startswith('/data/db'):
+        if filename.startswith(self.dir_name):
             syscall_name = message.split()[[field.startswith('probe') for field in message.split()].index(True)].split('=')[1].split('_')[2]
             if syscall_name not in self.global_syscall_counts:
                 self.global_syscall_counts[syscall_name] = 1
