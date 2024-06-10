@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-class GlobalIOStats():
+class GlobalSysCallCount():
     def __init__(self, name: str, dir_name: str) -> None:
         self.global_syscall_counts = dict()
         self.name = name
@@ -25,7 +25,7 @@ class GlobalIOStats():
         with open(file='global_syscall_counts.json', mode='w') as global_syscounts_output:
             json.dump(self.global_syscall_counts, global_syscounts_output, indent=2)
 
-class PerFileIOStats():
+class PerFileSysCallCount():
     def __init__(self, name: str, dir_name: str) -> None:
         self.per_file_syscall_counts = dict()
         self.name = name

@@ -1,13 +1,13 @@
 from pathlib import Path
 from io_profiler.file_reader import TraceFileReader
-from io_profiler.io_stats import GlobalIOStats, PerFileIOStats
+from io_profiler.io_stats import GlobalSysCallCount, PerFileSysCallCount
 from io_profiler.telemetry import TelemetryContentRouter
 
 def main():
     bpf_trfile_reader = TraceFileReader(Path('test_file.out'))
 
-    global_io_stats = GlobalIOStats(name='global_stats', dir_name='/data/db')
-    per_file_io_stats = PerFileIOStats(name='per-file-stats', dir_name='/data/db')
+    global_io_stats = GlobalSysCallCount(name='g-syscall-count', dir_name='/data/db')
+    per_file_io_stats = PerFileSysCallCount(name='pf-syscall-count', dir_name='/data/db')
     telemetry_content_router = TelemetryContentRouter(name='tlt-router', dir_name='/data/db')
 
     bpf_trfile_reader.subscribe(global_io_stats)
