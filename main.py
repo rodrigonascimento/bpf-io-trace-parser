@@ -1,6 +1,7 @@
 from pathlib import Path
 from io_profiler.file_reader import TraceFileReader
-from io_profiler.io_stats import GlobalSysCallCount, GlobalPidTidInfo, PerFileSysCallCount
+from io_profiler.global_io_stats import GlobalSysCallCount, GlobalPidTidInfo 
+from io_profiler.per_file_io_stats import PerFileSysCallCount
 from io_profiler.telemetry import TelemetryContentRouter
 
 def main():
