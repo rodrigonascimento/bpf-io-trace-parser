@@ -1,6 +1,7 @@
 test_file.out
 per_file_syscall_counts.json
 global_syscall_counts.json
+global_pid_tid_info.json
 io_profiler/__pycache__
 telemetry_files
 .venv
