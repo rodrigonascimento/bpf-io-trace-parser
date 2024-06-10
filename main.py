@@ -25,7 +25,7 @@ def main():
     global_pid_tid_info.write_output_file()
     
     per_file_syscall_stats.calculate_total_calls_per_file()
-    per_file_syscall_stats.write_output_file()\
+    per_file_syscall_stats.write_output_file()
     
 
 if __name__ == '__main__':
