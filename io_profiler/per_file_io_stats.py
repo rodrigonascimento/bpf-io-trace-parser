@@ -34,7 +34,7 @@ class PerFileSysCallCount():
             
             self.per_file_syscall_counts[f]['total'] = total
 
-    def write_output_file(self):
-        with open(file='per_file_syscall_counts.json', mode='w') as per_file_syscounts_output:
+    def write_output_file(self, output_file: str):
+        with open(file=output_file, mode='w') as per_file_syscounts_output:
             json.dump(self.per_file_syscall_counts, per_file_syscounts_output, indent=2)
 

@@ -21,8 +21,8 @@ class GlobalSysCallCount():
         else:
             return
 
-    def write_output_file(self):
-        with open(file='global_syscall_counts.json', mode='w') as global_syscounts_output:
+    def write_output_file(self, output_file: str):
+        with open(file=output_file, mode='w') as global_syscounts_output:
             json.dump(self.global_syscall_counts, global_syscounts_output, indent=2)
 
 class GlobalPidTidInfo():
@@ -46,8 +46,8 @@ class GlobalPidTidInfo():
                 self.global_pid_tid_count[pid] = list()
                 self.global_pid_tid_count[pid].append(tid) 
     
-    def write_output_file(self):
-        with open(file='global_pid_tid_info.json', mode='w') as g_pidtid_info:
+    def write_output_file(self, output_file: str):
+        with open(file=output_file, mode='w') as g_pidtid_info:
             json.dump(self.global_pid_tid_count, g_pidtid_info, indent=2)
 
 class GlobalCSVFy():

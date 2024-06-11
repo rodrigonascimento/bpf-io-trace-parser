@@ -21,7 +21,7 @@ class TelemetryContentRouter():
             if syscall_name == 'open' or syscall_name == 'openat' or syscall_name == 'openat2' or syscall_name == 'creat':
                 tlt_filename = filename.replace('/', '_') + '.tlt'    
                 if fd not in self.fd_filename:
-                    tlt_fd_file = TelemetryFile(tlt_file_name='./telemetry_files/' + tlt_filename)
+                    tlt_fd_file = TelemetryFile(tlt_file_name='./output_results/telemetry_files/' + tlt_filename)
                     tlt_fd_file.create()
                     self.fd_filename[(pid,tid,fd)] = tlt_fd_file
 

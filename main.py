@@ -9,7 +9,7 @@ def main():
 
     global_syscall_stats = GlobalSysCallCount(name='g-syscall-count', dir_name='/data/db')
     global_pid_tid_info = GlobalPidTidInfo(name='g-pidtid-info', dir_name='/data/db')
-    global_csvfy = GlobalCSVFy(name='g-csvfy', dir_name='/data/db', csv_filename='test_file.csv')
+    global_csvfy = GlobalCSVFy(name='g-csvfy', dir_name='/data/db', csv_filename='./output_results/test_file.csv')
     
     per_file_syscall_stats = PerFileSysCallCount(name='pf-syscall-count', dir_name='/data/db')
     
@@ -23,11 +23,11 @@ def main():
 
     bpf_trfile_reader.read_file()
     
-    global_syscall_stats.write_output_file()
-    global_pid_tid_info.write_output_file()
+    global_syscall_stats.write_output_file(output_file='./output_results/global_syscall_count.json')
+    global_pid_tid_info.write_output_file(output_file='./output_results/global_pid_tid_info.json')
     
     per_file_syscall_stats.calculate_total_calls_per_file()
-    per_file_syscall_stats.write_output_file()
+    per_file_syscall_stats.write_output_file(output_file='./output_results/per_file_syscall_counts.json')
     
 
 if __name__ == '__main__':
