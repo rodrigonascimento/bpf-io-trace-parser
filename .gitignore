@@ -2,3 +2,4 @@ test_file.out
 output_results
 io_profiler/__pycache__
 .venv
+.DS_Store
