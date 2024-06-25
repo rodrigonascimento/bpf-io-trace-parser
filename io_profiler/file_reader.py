@@ -1,7 +1,7 @@
 from pathlib import Path
 
 class TraceFileReader():
-    def __init__(self, trace_filename: Path) -> None:
+    def __init__(self, trace_filename: str) -> None:
         self.trace_file = trace_filename
         self.subscribers = list()
 
@@ -13,6 +13,6 @@ class TraceFileReader():
             subscriber.process(message)
 
     def read_file(self):
-        with open(file=self.trace_file.name, mode='r') as bpf_output:
+        with open(file=self.trace_file, mode='r') as bpf_output:
             for line in bpf_output.readlines():
                 self._publish(line)

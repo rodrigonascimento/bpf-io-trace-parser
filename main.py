@@ -1,10 +1,27 @@
+import argparse
+
 from pathlib import Path
 from io_profiler.file_reader import TraceFileReader
 from io_profiler.global_io_stats import GlobalCSVFy
 
+def cli_args():
+    parser = argparse.ArgumentParser(
+        prog='io-trace-parser',
+        description='Parse information out of the ebpf-syscall-io-tracer.bt program.'
+    )
+
+    parser.add_argument('--trace-file', type=str, help='Trace file to be parsed.')
+    parser.add_argument('--csv-output', type=str, help='CSV filename.')
+    parser.add_argument('--app-dir', type=str, help='Filter lines based on the application diretory.')
+
+    return parser.parse_args()
+
 def main():
-    bpf_trfile_reader = TraceFileReader(Path('test_file.out'))
-    global_csvfy = GlobalCSVFy(name='g-csvfy', dir_name='/data/db', csv_filename='./output_results/test_file.csv')
+    cli = cli_args()
+
+    bpf_trfile_reader = TraceFileReader(cli.trace_file)
+    global_csvfy = GlobalCSVFy(name='g-csvfy', dir_name=cli.app_dir, csv_filename=cli.csv_output)
+    
     bpf_trfile_reader.subscribe(global_csvfy)
     bpf_trfile_reader.read_file()    
 
