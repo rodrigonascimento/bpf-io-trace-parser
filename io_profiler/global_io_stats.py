@@ -88,3 +88,23 @@ class GlobalCSVFy():
 
                     line = timestamp + ',' + ms + ',' + probe + ',' + process + ',' + pid + ',' + tid + ',' + filename + ',' + fd + ',' + lat_ns + ',' + req_size_bytes + ',' + offset + ',' + bytes_rw
                     csvfy.write(line + '\n')
+
+
+class GlobalEventCount():
+    def __init__(self, name: str) -> None:
+        self.name = name
+        self.number_events_captured: int = 0
+        self.number_events_lost: int = 0 
+
+    def process(self, message: str) -> None:
+        if message[:4] != 'Lost':
+            self.number_events_captured += 1 
+            return
+
+        lost_events = int(message.split()[1])
+        self.number_events_lost += lost_events
+    
+    def write_output_file(self, output_file: str):
+        with open(file=output_file, mode='w') as outf:
+            outf.write('events_captured,events_lost\n')
+            outf.write(str(self.number_events_captured) + ',' + str(self.number_events_lost))

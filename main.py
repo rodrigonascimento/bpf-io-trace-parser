@@ -2,7 +2,7 @@ import argparse
 
 from pathlib import Path
 from io_profiler.file_reader import TraceFileReader
-from io_profiler.global_io_stats import GlobalCSVFy
+from io_profiler.global_io_stats import GlobalCSVFy, GlobalEventCount
 
 def cli_args():
     parser = argparse.ArgumentParser(
@@ -21,9 +21,13 @@ def main():
 
     bpf_trfile_reader = TraceFileReader(cli.trace_file)
     global_csvfy = GlobalCSVFy(name='g-csvfy', dir_name=cli.app_dir, csv_filename=cli.csv_output)
+    global_evt_count = GlobalEventCount(name='g-evt-count')
     
     bpf_trfile_reader.subscribe(global_csvfy)
+    bpf_trfile_reader.subscribe(global_evt_count)
     bpf_trfile_reader.read_file()    
+
+    global_evt_count.write_output_file(output_file='./output_results/event_count.csv')
 
 
 if __name__ == '__main__':
