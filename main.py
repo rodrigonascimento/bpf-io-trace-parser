@@ -12,7 +12,7 @@ def cli_args():
 
     parser.add_argument('--trace-file', type=str, help='Trace file to be parsed.')
     parser.add_argument('--csv-output', type=str, help='CSV filename.')
-    parser.add_argument('--app-dir', type=str, help='Filter lines based on the application diretory.')
+    parser.add_argument('--tlt-output', type=str, help='Per-file telemetry output directory.')
 
     return parser.parse_args()
 
@@ -20,7 +20,7 @@ def main():
     cli = cli_args()
 
     bpf_trfile_reader = TraceFileReader(cli.trace_file)
-    global_csvfy = GlobalCSVFy(name='g-csvfy', dir_name=cli.app_dir, csv_filename=cli.csv_output)
+    global_csvfy = GlobalCSVFy(name='g-csvfy', csv_filename=cli.csv_output)
     global_evt_count = GlobalEventCount(name='g-evt-count')
     
     bpf_trfile_reader.subscribe(global_csvfy)
