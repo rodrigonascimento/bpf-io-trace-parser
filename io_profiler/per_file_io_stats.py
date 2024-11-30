@@ -32,8 +32,8 @@ class PerFileEvents():
         
         line = timestamp + ',' + ms + ',' + probe + ',' + process + ',' + pid + ',' + tid + ',' + filename + ',' + fd + ',' + lat_ns + ',' + req_size_bytes + ',' + offset + ',' + bytes_rw
         
-        tlt_filename = 'tlt' + filename.replace('/', '_') + '_' + fd +'.csv'
         if (pid,tid,fd,filename) not in self.fd_filename:
+            tlt_filename = 'tlt' + filename.replace('/', '_') + '_' + fd +'.csv'
             tlt_csv_file = TelemetryFile(csv_filename=self.tlt_dir + '/' + tlt_filename)
             self.fd_filename[(pid,tid,fd,filename)] = tlt_csv_file
                 
