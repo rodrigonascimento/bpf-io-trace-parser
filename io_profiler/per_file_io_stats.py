@@ -32,12 +32,12 @@ class PerFileEvents():
         
         line = timestamp + ',' + ms + ',' + probe + ',' + process + ',' + pid + ',' + tid + ',' + filename + ',' + fd + ',' + lat_ns + ',' + req_size_bytes + ',' + offset + ',' + bytes_rw
         
-        if (pid,tid,fd,filename) not in self.fd_filename:
-            tlt_filename = 'tlt' + filename.replace('/', '_') + '_' + fd +'.csv'
+        if (filename) not in self.fd_filename:
+            tlt_filename = 'tlt' + filename.replace('/', '_') + '.csv'
             tlt_csv_file = TelemetryFile(csv_filename=self.tlt_dir + '/' + tlt_filename)
-            self.fd_filename[(pid,tid,fd,filename)] = tlt_csv_file
+            self.fd_filename[filename] = tlt_csv_file
                 
-        self.fd_filename[(pid,tid,fd,filename)].add_line(line=line)
+        self.fd_filename[filename].add_line(line=line)
 
 class PerFileSysCallCount():
     def __init__(self, name: str, dir_name: str) -> None:
