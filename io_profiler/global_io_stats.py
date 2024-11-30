@@ -2,9 +2,8 @@ import json
 from pathlib import Path
 
 class GlobalCSVFy():
-    def __init__(self, name: str, dir_name: str, csv_filename: str) -> None:
+    def __init__(self, name: str, csv_filename: str) -> None:
         self.name = name
-        self.dir_name = dir_name
         self.csv_filename = csv_filename
         
     def process(self, message: str) -> None:
