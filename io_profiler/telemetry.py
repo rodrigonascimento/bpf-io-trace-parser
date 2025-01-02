@@ -7,7 +7,7 @@ class TelemetryFile():
         if not self.tlt_file_name.exists():
             self.tlt_file_name.touch()
             self.fd_csv_file = open(self.tlt_file_name, 'a+')
-            self.fd_csv_file.write('timestamp,millisecond,syscall_probe,process,pid,tid,filename,fd,lat_ns,req_size_bytes,offset,bytes\n')
+            self.fd_csv_file.write('timestamp,microsecond,syscall_probe,process,pid,tid,filename,fd,lat_ns,req_size_bytes,offset,bytes\n')
         else:
             self.fd_csv_file = open(self.tlt_file_name, 'w')
 
