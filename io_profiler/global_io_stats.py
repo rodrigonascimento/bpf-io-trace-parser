@@ -14,7 +14,7 @@ class GlobalCSVFy():
         if filename:
             if not Path(self.csv_filename).exists():
                 with open(file=self.csv_filename, mode='w') as csvfy:
-                    csvfy.write('timestamp,millisecond,syscall_probe,process,pid,tid,filename,fd,lat_ns,req_size_bytes,offset,bytes\n')
+                    csvfy.write('timestamp,microsecond,syscall_probe,process,pid,tid,filename,fd,lat_ns,req_size_bytes,offset,bytes\n')
             else:
                 with open(file=self.csv_filename, mode='a') as csvfy:
                     timestamp      = message.split()[[field.startswith('time') for field in message.split()].index(True)].split('=')[1].split('.')[0]
