@@ -22,13 +22,17 @@ class PerFileEvents():
         fd             = message.split()[[field.startswith('fd') for field in message.split()].index(True)].split('=')[1]        
         lat_ns = message.split()[[field.startswith('lat') for field in message.split()].index(True)].split('=')[1] if 'lat=' in message else ''
         req_size_bytes = message.split()[[field.startswith('req_size_bytes') for field in message.split()].index(True)].split('=')[1] if 'req_size_bytes=' in message else ''
-        offset         = message.split()[[field.startswith('offset') for field in message.split()].index(True)].split('=')[1] if 'offset' in message else ''
         if 'read' in probe:
             bytes_rw   = message.split()[[field.startswith('bytes_read') for field in message.split()].index(True)].split('=')[1]
         elif 'write' in probe:
             bytes_rw   = message.split()[[field.startswith('bytes_written') for field in message.split()].index(True)].split('=')[1]
         else:
             bytes_rw   = ''
+        
+        if 'offset' in probe:
+            offset     = message.split()[[field.startswith('offset') for field in message.split()].index(True)].split('=')[1]
+        elif 'open' in probe:
+            offset     = 0
         
         line = timestamp + ',' + ms + ',' + probe + ',' + process + ',' + pid + ',' + tid + ',' + filename + ',' + fd + ',' + lat_ns + ',' + req_size_bytes + ',' + offset + ',' + bytes_rw
         
